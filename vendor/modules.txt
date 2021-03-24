@@ -1,0 +1,23 @@
+# github.com/google/uuid v1.1.2
+github.com/google/uuid
+# github.com/hasura/go-graphql-client v0.2.0
+## explicit
+github.com/hasura/go-graphql-client
+github.com/hasura/go-graphql-client/ident
+github.com/hasura/go-graphql-client/internal/jsonutil
+# github.com/klauspost/compress v1.10.3
+github.com/klauspost/compress/flate
+# go.uber.org/dig v1.10.0
+## explicit
+go.uber.org/dig
+go.uber.org/dig/internal/digreflect
+go.uber.org/dig/internal/dot
+# golang.org/x/net v0.0.0-20201110031124-69a78807bb2b
+golang.org/x/net/context/ctxhttp
+# nhooyr.io/websocket v1.8.6
+nhooyr.io/websocket
+nhooyr.io/websocket/internal/bpool
+nhooyr.io/websocket/internal/errd
+nhooyr.io/websocket/internal/wsjs
+nhooyr.io/websocket/internal/xsync
+nhooyr.io/websocket/wsjson
