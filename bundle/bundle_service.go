@@ -2,11 +2,12 @@ package bundle
 
 import (
     "context"
+    "fmt"
     "github.com/hasura/go-graphql-client"
     "main-go-graph-lib/main_graph_ql"
 )
 
-type BundleService struct {
+type Service struct {
     client *graphql.Client
 }
 
@@ -16,14 +17,21 @@ type BundleAllQuery struct {
 type BundleByIdQuery struct {
     Result BundleEntity `graphql:"bundle(id: $id)"`
 }
+type CreateBundleQuery struct {
+    Result BundleEntity `graphql:"createBundle(input: $input)"`
+}
+type UpdateBundleQuery struct {
+    Result BundleEntity `graphql:"updateBundle(id: $id, input: $input)"`
+}
 
-func NewBundleService(client main_graph_ql.Client) *BundleService {
-    return &BundleService{
+
+func NewService(client main_graph_ql.Client) *Service {
+    return &Service{
         client: client,
     }
 }
 
-func(s *BundleService) All() ([]*BundleEntity, error) {
+func(s *Service) All() ([]*BundleEntity, error) {
     var query BundleAllQuery
     err := s.client.Query(context.Background(), &query, nil)
     if(err != nil) {
@@ -39,7 +47,7 @@ func(s *BundleService) All() ([]*BundleEntity, error) {
     return pointerSlice, nil
 }
 
-func(s *BundleService) Fetch(id string) (*BundleEntity, error) {
+func(s *Service) Fetch(id string) (*BundleEntity, error) {
     variables := map[string]interface{}{
         "bundleId": graphql.String(id),
     }
@@ -51,5 +59,42 @@ func(s *BundleService) Fetch(id string) (*BundleEntity, error) {
     }
 
     return &query.Result, nil
+}
+
+
+func(s *Service) Create(input *BundleInputType) (*BundleEntity, error) {
+	variables := map[string]interface{}{
+		"input": input,
+	}
+
+	var query CreateBundleQuery
+	err := s.client.Mutate(context.Background(), &query, variables)
+	if(err != nil) {
+		return nil, err
+	}
+
+	return &query.Result, nil
+}
+
+func(s *Service) Update(inputEntity *BundleEntity) (*BundleEntity, error) {
+    input := NewInputType(inputEntity)
+
+	variables := map[string]interface{}{
+	    "id": graphql.String(input.Id),
+		"input": input,
+	}
+
+	var query UpdateBundleQuery
+    fmt.Println("vars:")
+    fmt.Println(variables)
+	json, err := s.client.MutateRaw(context.Background(), &query, variables)
+    if(err != nil) {
+        fmt.Println("here3-----")
+        return nil, err
+    }
+    fmt.Println("here4-----")
+    fmt.Println(string(*json))
+
+	return &query.Result, nil
 }
 

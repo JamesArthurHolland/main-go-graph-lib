@@ -1,4 +1,4 @@
-package user
+package youtube_channel
 
 import (
     "context"
@@ -11,21 +11,21 @@ type Service struct {
     client *graphql.Client
 }
 
-type UserAllQuery struct {
-    Result []UserEntity `graphql:"userAll"`
+type YoutubeChannelAllQuery struct {
+    Result []YoutubeChannelEntity `graphql:"youtubeChannelAll"`
 }
-type UserByIdQuery struct {
-    Result UserEntity `graphql:"user(id: $id)"`
+type YoutubeChannelByIdQuery struct {
+    Result YoutubeChannelEntity `graphql:"youtubeChannel(id: $id)"`
 }
-type CreateUserQuery struct {
-    Result UserEntity `graphql:"createUser(input: $input)"`
+type CreateYoutubeChannelQuery struct {
+    Result YoutubeChannelEntity `graphql:"createYoutubeChannel(input: $input)"`
 }
-type UpdateUserQuery struct {
-    Result UserEntity `graphql:"updateUser(id: $id, input: $input)"`
+type UpdateYoutubeChannelQuery struct {
+    Result YoutubeChannelEntity `graphql:"updateYoutubeChannel(id: $id, input: $input)"`
 }
 
-type UserByEmailQuery struct {
-    Result UserEntity `graphql:"userByEmail(email: $email)"`
+type YoutubeChannelByChannelNameQuery struct {
+    Result YoutubeChannelEntity `graphql:"youtubeChannelByChannelName(channelName: $channelName)"`
 }
 
 
@@ -35,14 +35,14 @@ func NewService(client main_graph_ql.Client) *Service {
     }
 }
 
-func(s *Service) All() ([]*UserEntity, error) {
-    var query UserAllQuery
+func(s *Service) All() ([]*YoutubeChannelEntity, error) {
+    var query YoutubeChannelAllQuery
     err := s.client.Query(context.Background(), &query, nil)
     if(err != nil) {
         return nil, err
     }
 
-    var pointerSlice []*UserEntity
+    var pointerSlice []*YoutubeChannelEntity
     for i := 0; i < len(query.Result); i++ {
     	pointerSlice = append(pointerSlice, &query.Result[i])
     }
@@ -51,12 +51,12 @@ func(s *Service) All() ([]*UserEntity, error) {
     return pointerSlice, nil
 }
 
-func(s *Service) Fetch(id string) (*UserEntity, error) {
+func(s *Service) Fetch(id string) (*YoutubeChannelEntity, error) {
     variables := map[string]interface{}{
-        "userId": graphql.String(id),
+        "youtubeChannelId": graphql.String(id),
     }
 
-    var query UserByIdQuery
+    var query YoutubeChannelByIdQuery
     err := s.client.Query(context.Background(), &query, variables)
     if(err != nil) {
         return nil, err
@@ -65,12 +65,12 @@ func(s *Service) Fetch(id string) (*UserEntity, error) {
     return &query.Result, nil
 }
 
-func(s *Service) FetchByEmail(email string) (*UserEntity, error) {
+func(s *Service) FetchByChannelName(channel_name string) (*YoutubeChannelEntity, error) {
     variables := map[string]interface{}{
-        "email": graphql.String(email),
+        "channelName": graphql.String(channel_name),
     }
 
-    var query UserByEmailQuery
+    var query YoutubeChannelByChannelNameQuery
     err := s.client.Query(context.Background(), &query, variables)
     if(err != nil) {
         return nil, err
@@ -80,12 +80,12 @@ func(s *Service) FetchByEmail(email string) (*UserEntity, error) {
 }
 
 
-func(s *Service) Create(input *UserInputType) (*UserEntity, error) {
+func(s *Service) Create(input *YoutubeChannelInputType) (*YoutubeChannelEntity, error) {
 	variables := map[string]interface{}{
 		"input": input,
 	}
 
-	var query CreateUserQuery
+	var query CreateYoutubeChannelQuery
 	err := s.client.Mutate(context.Background(), &query, variables)
 	if(err != nil) {
 		return nil, err
@@ -94,7 +94,7 @@ func(s *Service) Create(input *UserInputType) (*UserEntity, error) {
 	return &query.Result, nil
 }
 
-func(s *Service) Update(inputEntity *UserEntity) (*UserEntity, error) {
+func(s *Service) Update(inputEntity *YoutubeChannelEntity) (*YoutubeChannelEntity, error) {
     input := NewInputType(inputEntity)
 
 	variables := map[string]interface{}{
@@ -102,7 +102,7 @@ func(s *Service) Update(inputEntity *UserEntity) (*UserEntity, error) {
 		"input": input,
 	}
 
-	var query UpdateUserQuery
+	var query UpdateYoutubeChannelQuery
     fmt.Println("vars:")
     fmt.Println(variables)
 	json, err := s.client.MutateRaw(context.Background(), &query, variables)
