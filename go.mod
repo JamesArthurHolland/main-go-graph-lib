@@ -1,4 +1,4 @@
-module main-go-graph-lib
+module github.com/JamesArthurHolland/thumbin/main-go-graph-lib
 
 go 1.14
 
