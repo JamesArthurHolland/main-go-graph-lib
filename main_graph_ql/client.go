@@ -2,10 +2,11 @@ package main_graph_ql
 
 import (
     "fmt"
-    "github.com/hasura/go-graphql-client"
     "log"
     "os"
+    "github.com/hasura/go-graphql-client"
 )
+
 
 type DataPersistenceHost string
 type DataPersistencePort string
@@ -22,14 +23,14 @@ func GetDataPersistenceUrl(host DataPersistenceHost, port DataPersistencePort) D
 }
 
 func GetPersistenceUrlParts() (DataPersistenceHost, DataPersistencePort) {
-    portString := os.Getenv("DP_MAIN_PORT")
+    portString := os.Getenv("THUMBIN_DP_MAIN_PORT")
     if portString == "" {
-        log.Fatalln("DP_MAIN_PORT env var not set.")
+        log.Fatalln("THUMBIN_DP_MAIN_PORT env var not set.")
     }
 
-    hostString := os.Getenv("DP_MAIN_HOST")
+    hostString := os.Getenv("THUMBIN_DP_MAIN_HOST")
     if hostString == "" {
-        log.Fatalln("DP_MAIN_HOST env var not set.")
+        log.Fatalln("THUMBIN_DP_MAIN_HOST env var not set.")
     }
 
     return DataPersistenceHost(hostString), DataPersistencePort(portString)

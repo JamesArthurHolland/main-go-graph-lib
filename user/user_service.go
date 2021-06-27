@@ -3,8 +3,8 @@ package user
 import (
     "context"
     "fmt"
-    "github.com/JamesArthurHolland/thumbin/main-go-graph-lib/main_graph_ql"
     "github.com/hasura/go-graphql-client"
+    "github.com/JamesArthurHolland/thumbin/main-go-graph-lib/main_graph_ql"
 )
 
 type Service struct {
