@@ -9,6 +9,7 @@ type UserEntity struct {
     LastName graphql.String `json:"last_name"`
     Gravatar graphql.String `json:"gravatar"`
     PreferredCurrency graphql.String `json:"preferred_currency"`
+    StripeId graphql.String `json:"stripe_id"`
     Confirmed graphql.Boolean `json:"confirmed"`
 }
 
@@ -19,6 +20,7 @@ type UserInputType struct {
     LastName         graphql.String    `json:"last_name"`
     Gravatar         graphql.String    `json:"gravatar"`
     PreferredCurrency         graphql.String    `json:"preferred_currency"`
+    StripeId         graphql.String    `json:"stripe_id"`
     Confirmed         graphql.Boolean    `json:"confirmed"`
 }
 
@@ -30,6 +32,7 @@ func NewInputType(entity *UserEntity) *UserInputType {
         LastName: entity.LastName,
         Gravatar: entity.Gravatar,
         PreferredCurrency: entity.PreferredCurrency,
+        StripeId: entity.StripeId,
         Confirmed: entity.Confirmed,
     }
 }
