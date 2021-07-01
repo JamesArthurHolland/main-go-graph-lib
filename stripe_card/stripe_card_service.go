@@ -1,4 +1,4 @@
-package user
+package stripe_card
 
 import (
     "context"
@@ -11,21 +11,21 @@ type Service struct {
     client *graphql.Client
 }
 
-type UserAllQuery struct {
-    Result []UserEntity `graphql:"userAll"`
+type StripeCardAllQuery struct {
+    Result []StripeCardEntity `graphql:"stripeCardAll"`
 }
-type UserByIdQuery struct {
-    Result UserEntity `graphql:"user(id: $id)"`
+type StripeCardByIdQuery struct {
+    Result StripeCardEntity `graphql:"stripeCard(id: $id)"`
 }
-type CreateUserQuery struct {
-    Result UserEntity `graphql:"createUser(input: $input)"`
+type CreateStripeCardQuery struct {
+    Result StripeCardEntity `graphql:"createStripeCard(input: $input)"`
 }
-type UpdateUserQuery struct {
-    Result UserEntity `graphql:"updateUser(id: $id, input: $input)"`
+type UpdateStripeCardQuery struct {
+    Result StripeCardEntity `graphql:"updateStripeCard(id: $id, input: $input)"`
 }
 
-type UserByEmailQuery struct {
-    Result UserEntity `graphql:"userByEmail(email: $email)"`
+type StripeCardByOwnerIdQuery struct {
+    Result StripeCardEntity `graphql:"stripeCardByOwnerId(ownerId: $ownerId)"`
 }
 
 
@@ -35,14 +35,14 @@ func NewService(client main_graph_ql.Client) *Service {
     }
 }
 
-func(s *Service) All() ([]*UserEntity, error) {
-    var query UserAllQuery
+func(s *Service) All() ([]*StripeCardEntity, error) {
+    var query StripeCardAllQuery
     err := s.client.Query(context.Background(), &query, nil)
     if(err != nil) {
         return nil, err
     }
 
-    var pointerSlice []*UserEntity
+    var pointerSlice []*StripeCardEntity
     for i := 0; i < len(query.Result); i++ {
     	pointerSlice = append(pointerSlice, &query.Result[i])
     }
@@ -51,12 +51,12 @@ func(s *Service) All() ([]*UserEntity, error) {
     return pointerSlice, nil
 }
 
-func(s *Service) Fetch(id string) (*UserEntity, error) {
+func(s *Service) Fetch(id string) (*StripeCardEntity, error) {
     variables := map[string]interface{}{
-        "userId": graphql.String(id),
+        "stripeCardId": graphql.String(id),
     }
 
-    var query UserByIdQuery
+    var query StripeCardByIdQuery
     err := s.client.Query(context.Background(), &query, variables)
     if(err != nil) {
         return nil, err
@@ -65,12 +65,12 @@ func(s *Service) Fetch(id string) (*UserEntity, error) {
     return &query.Result, nil
 }
 
-func(s *Service) FetchByEmail(email string) (*UserEntity, error) {
+func(s *Service) FetchByOwnerId(owner_id string) (*StripeCardEntity, error) {
     variables := map[string]interface{}{
-        "email": graphql.String(email),
+        "ownerId": graphql.String(owner_id),
     }
 
-    var query UserByEmailQuery
+    var query StripeCardByOwnerIdQuery
     err := s.client.Query(context.Background(), &query, variables)
     if(err != nil) {
         return nil, err
@@ -80,13 +80,13 @@ func(s *Service) FetchByEmail(email string) (*UserEntity, error) {
 }
 
 
-func(s *Service) Create(input *UserInputType) (*UserEntity, error) {
+func(s *Service) Create(input *StripeCardInputType) (*StripeCardEntity, error) {
 	variables := map[string]interface{}{
 		"input": input,
 	}
 
-	var query CreateUserQuery
-	err := s.client.Mutate(context.Background(), &query, variables)
+	var query CreateStripeCardQuery
+	err := s.client.Mutate(context.TODO(), &query, variables)
 	if(err != nil) {
 		return nil, err
 	}
@@ -94,7 +94,7 @@ func(s *Service) Create(input *UserInputType) (*UserEntity, error) {
 	return &query.Result, nil
 }
 
-func(s *Service) Update(inputEntity *UserEntity) (*UserEntity, error) {
+func(s *Service) Update(inputEntity *StripeCardEntity) (*StripeCardEntity, error) {
     input := NewInputType(inputEntity)
 
 	variables := map[string]interface{}{
@@ -102,7 +102,7 @@ func(s *Service) Update(inputEntity *UserEntity) (*UserEntity, error) {
 		"input": input,
 	}
 
-	var query UpdateUserQuery
+	var query UpdateStripeCardQuery
     fmt.Println("vars:")
     fmt.Println(variables)
 	err := s.client.Mutate(context.Background(), &query, variables)

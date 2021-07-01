@@ -8,6 +8,7 @@ type OrganisationEntity struct {
     Name graphql.String `json:"name"`
     Gravatar graphql.String `json:"gravatar"`
     PreferredCurrency graphql.String `json:"preferred_currency"`
+    LockVersion int64   `json:"lock_version"`
 }
 
 type OrganisationInputType struct {
@@ -16,6 +17,7 @@ type OrganisationInputType struct {
     Name         graphql.String    `json:"name"`
     Gravatar         graphql.String    `json:"gravatar"`
     PreferredCurrency         graphql.String    `json:"preferred_currency"`
+    LockVersion int64   `json:"lock_version"`
 }
 
 func NewInputType(entity *OrganisationEntity) *OrganisationInputType {
@@ -25,5 +27,6 @@ func NewInputType(entity *OrganisationEntity) *OrganisationInputType {
         Name: entity.Name,
         Gravatar: entity.Gravatar,
         PreferredCurrency: entity.PreferredCurrency,
+        LockVersion: entity.LockVersion,
     }
 }

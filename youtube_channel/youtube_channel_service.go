@@ -105,13 +105,11 @@ func(s *Service) Update(inputEntity *YoutubeChannelEntity) (*YoutubeChannelEntit
 	var query UpdateYoutubeChannelQuery
     fmt.Println("vars:")
     fmt.Println(variables)
-	json, err := s.client.MutateRaw(context.Background(), &query, variables)
+	err := s.client.Mutate(context.Background(), &query, variables)
     if(err != nil) {
         fmt.Println("here3-----")
         return nil, err
     }
-    fmt.Println("here4-----")
-    fmt.Println(string(*json))
 
 	return &query.Result, nil
 }

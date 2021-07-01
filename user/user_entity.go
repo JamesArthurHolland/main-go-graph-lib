@@ -9,8 +9,11 @@ type UserEntity struct {
     LastName graphql.String `json:"last_name"`
     Gravatar graphql.String `json:"gravatar"`
     PreferredCurrency graphql.String `json:"preferred_currency"`
-    StripeId graphql.String `json:"stripe_id"`
+    StripeAccountId graphql.String `json:"stripe_account_id"`
+    StripeCustomerId graphql.String `json:"stripe_customer_id"`
+    StripeDefaultCard graphql.String `json:"stripe_default_card"`
     Confirmed graphql.Boolean `json:"confirmed"`
+    LockVersion int64   `json:"lock_version"`
 }
 
 type UserInputType struct {
@@ -20,8 +23,11 @@ type UserInputType struct {
     LastName         graphql.String    `json:"last_name"`
     Gravatar         graphql.String    `json:"gravatar"`
     PreferredCurrency         graphql.String    `json:"preferred_currency"`
-    StripeId         graphql.String    `json:"stripe_id"`
+    StripeAccountId         graphql.String    `json:"stripe_account_id"`
+    StripeCustomerId         graphql.String    `json:"stripe_customer_id"`
+    StripeDefaultCard         graphql.String    `json:"stripe_default_card"`
     Confirmed         graphql.Boolean    `json:"confirmed"`
+    LockVersion int64   `json:"lock_version"`
 }
 
 func NewInputType(entity *UserEntity) *UserInputType {
@@ -32,7 +38,10 @@ func NewInputType(entity *UserEntity) *UserInputType {
         LastName: entity.LastName,
         Gravatar: entity.Gravatar,
         PreferredCurrency: entity.PreferredCurrency,
-        StripeId: entity.StripeId,
+        StripeAccountId: entity.StripeAccountId,
+        StripeCustomerId: entity.StripeCustomerId,
+        StripeDefaultCard: entity.StripeDefaultCard,
         Confirmed: entity.Confirmed,
+        LockVersion: entity.LockVersion,
     }
 }
